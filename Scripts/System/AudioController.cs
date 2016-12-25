@@ -37,11 +37,11 @@ public class AudioController : MonoBehaviour {
 		backgroundMusic.volume = 0;
 	}
 
-	public static void PlayMusic(SoundEffectType p_type){
-		AudioController.instance.M_PlayMusic (p_type);
+	public static void PlaySoundEffect(SoundEffectType p_type){
+		AudioController.instance.M_PlaySoundEffect (p_type);
 	}
 
-	public void M_PlayMusic(SoundEffectType p_type){
+	public void M_PlaySoundEffect(SoundEffectType p_type){
 		soundEffect.clip = Resources.Load ("Sounds/" + p_type.ToString ()) as AudioClip;
 		soundEffect.Play ();
 	}

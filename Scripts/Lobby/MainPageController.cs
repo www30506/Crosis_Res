@@ -51,7 +51,7 @@ public class MainPageController : Page_Base {
 		#endif
 
 		PageManerger.ChangePage (PageType.ExperiencePage);
-		AudioController.PlayMusic (SoundEffectType.ButtonClick);
+		AudioController.PlaySoundEffect (SoundEffectType.ButtonClick);
 	}
 
 	public void OnSkillPageBtn(){
@@ -60,7 +60,7 @@ public class MainPageController : Page_Base {
 		#endif
 
 		PageManerger.ChangePage (PageType.SkillPage);
-		AudioController.PlayMusic (SoundEffectType.ButtonClick);
+		AudioController.PlaySoundEffect (SoundEffectType.ButtonClick);
 	}
 
 	public void OnPersonalityPageBtn(){
@@ -79,7 +79,7 @@ public class MainPageController : Page_Base {
 		#endif
 
 		PageManerger.ChangePage (PageType.WorksPage);
-		AudioController.PlayMusic (SoundEffectType.ButtonClick);
+		AudioController.PlaySoundEffect (SoundEffectType.ButtonClick);
 	}
 
 	private void FadeInAnim(){
