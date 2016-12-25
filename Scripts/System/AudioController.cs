@@ -26,7 +26,7 @@ public class AudioController : MonoBehaviour {
 	}
 
 	public void M_StartBackgroundMusic(){
-		backgroundMusic.volume = 0.4f;
+		backgroundMusic.Play ();
 	}
 
 	public static void StopBackgroundMusic(){
@@ -34,7 +34,7 @@ public class AudioController : MonoBehaviour {
 	}
 
 	public void M_StopBackgroundMusic(){
-		backgroundMusic.volume = 0;
+		backgroundMusic.Stop ();
 	}
 
 	public static void PlaySoundEffect(SoundEffectType p_type){
