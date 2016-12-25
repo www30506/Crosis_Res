@@ -127,6 +127,7 @@ public class PageManerger : MonoBehaviour {
 			return;
 		}
 		StartCoroutine (IE_BackPage ());
+		AudioController.PlayMusic (SoundEffectType.Btn_Back);
 	}
 
 	IEnumerator IE_BackPage(){
