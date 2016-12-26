@@ -9,12 +9,13 @@ public class PageManerger : MonoBehaviour {
 	private List<Page_Base> pageList = new List<Page_Base>(); 
 	[SerializeField]private List<PageType> pageTypeList = new List<PageType> ();
 	private Transform canvas;
-	private Page_Base[] allPages;
+	[SerializeField]private Page_Base[] allPages;
 	private bool isWork = false;
 
 	void Awake(){
 		canvas = GameObject.Find ("Canvas").transform;
 		instance = this;
+			
 		allPages = canvas.GetComponentsInChildren<Page_Base> ();
 	}
 

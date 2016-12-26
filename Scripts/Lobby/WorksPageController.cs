@@ -12,31 +12,34 @@ public class WorksPageController : Page_Base {
 	private bool isPlayingMovie = false;
 	IEnumerator contrin;
 
-	void Awake(){
-		
+	void Awake(){		
 	}
 
 	void Start () {
-		#if !UNITY_EDITOR
-		movieTexture = new WebGLMovieTexture("StreamingAssets/VdartsMovie.mp4");
-		movieTexture.Seek (0);
-		moviePlane.GetComponent<MeshRenderer>().material = new Material (Shader.Find("Diffuse"));
-		moviePlane.GetComponent<MeshRenderer>().material.mainTexture = movieTexture;
-		#endif
+		
 	}
 
 	void OnDisable(){
+	}
+
+	protected override void OnClose(){
 		#if !UNITY_EDITOR
 		StopMovie ();
 		#endif
 	}
 
-	protected override void OnClose(){
-	}
-
 	protected override void OnOpen(){
 		moviePlane.gameObject.SetActive (false);
 		closeMovie.gameObject.SetActive (false);
+
+		#if !UNITY_EDITOR
+		if(movieTexture == null){
+			movieTexture = new WebGLMovieTexture("StreamingAssets/VdartsMovie.mp4");
+			movieTexture.Seek (0);
+			moviePlane.GetComponent<MeshRenderer>().material = new Material (Shader.Find("Diffuse"));
+			moviePlane.GetComponent<MeshRenderer>().material.mainTexture = movieTexture;
+		}
+		#endif
 	}
 
 	void Update () {
@@ -105,8 +108,10 @@ public class WorksPageController : Page_Base {
 
 
 	private void StopMovie(){
-		movieTexture.Pause ();
-		movieTexture.Seek(0);
+		if (movieTexture != null) {
+			movieTexture.Pause ();
+			movieTexture.Seek (0);
+		}
 		closeMovie.gameObject.SetActive (false);
 		moviePlane.gameObject.SetActive (false);
 	}

@@ -20,13 +20,13 @@ public class MainPageController : Page_Base {
 	}
 
 	void Start () {
-		circleCanvasGroup.alpha = 0;
 	}
 
 	protected override void OnClose(){
 	}
 
 	protected override void OnOpen(){
+		circleCanvasGroup.alpha = 0;
 	}
 
 	protected override IEnumerator IE_ClosePageAnim(){
