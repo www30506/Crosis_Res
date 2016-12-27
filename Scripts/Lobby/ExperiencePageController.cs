@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ExperiencePageController : Page_Base {
+	[SerializeField]private Scrollbar scrollbar;
 
 	void Awake(){
 		
@@ -16,6 +18,7 @@ public class ExperiencePageController : Page_Base {
 	}
 
 	protected override void OnOpen(){
+		scrollbar.value = 1;
 	}
 		
 	void Update () {
