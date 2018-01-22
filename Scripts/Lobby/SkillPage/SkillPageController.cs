@@ -5,7 +5,12 @@ using UnityEngine.UI;
 
 public class SkillPageController : Page_Base {
 	[SerializeField]private SkillItem[] skillItems;
-	[SerializeField]private int[] skillValue;
+	[System.Serializable]
+	private class C_Skill{
+		public int value;
+		public string name;
+	}
+	[SerializeField]private C_Skill[] skillValue;
 
 	void Awake(){
 		skillItems = this.GetComponentsInChildren<SkillItem> ();
@@ -36,7 +41,7 @@ public class SkillPageController : Page_Base {
 
 	private void SkillBarAnim(){
 		for (int i = 0; i < skillItems.Length; i++) {
-			skillItems [i].SetDate (skillValue [i]);
+			skillItems [i].SetDate (skillValue [i].value, skillValue [i].name);
 			skillItems [i].StartAnim ();
 		}
 	}

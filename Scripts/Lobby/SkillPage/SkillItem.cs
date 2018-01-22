@@ -8,6 +8,7 @@ public class SkillItem : MonoBehaviour {
 	[SerializeField]private int skillValue;
 	private float moveTime = 0.2f;
 	[SerializeField]private Sprite[] Sprites;
+	[SerializeField]private Text text;
 
 	void Start () {
 		
@@ -17,8 +18,9 @@ public class SkillItem : MonoBehaviour {
 		
 	}
 
-	public void SetDate(int p_value){
+	public void SetDate(int p_value, string p_text){
 		skillValue = p_value;
+		text.text = p_text;
 	}
 
 	public void StartAnim(){
