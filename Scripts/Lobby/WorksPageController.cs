@@ -5,10 +5,19 @@ using UnityEngine.UI;
 using System.Runtime.InteropServices;
 
 public class WorksPageController : Page_Base {
+	[System.Serializable]
+	public class ButtonData{
+		public string name;
+		public string videoName;
+		[HideInInspector]public Text text;
+	}
+
 	private WebGLMovieTexture movieTexture;
 	[SerializeField]private RawImage closeMovie;
 	[SerializeField]private GameObject moviePlane;
 	[SerializeField]private GameObject closeMovieTipObj;
+	[SerializeField]private GameObject LoadingMoiveTipObj;
+	[SerializeField]private ButtonData[] buttonsData;
 	private bool isPlayingMovie = false;
 	IEnumerator contrin;
 
@@ -16,7 +25,14 @@ public class WorksPageController : Page_Base {
 	}
 
 	void Start () {
-		
+		InitBtns ();
+	}
+
+	private void InitBtns(){
+		for (int i = 0; i < buttonsData.Length; i++) {
+			buttonsData [i].text = this.transform.Find ("BtnGroups").GetChild (i).transform.Find("Text").GetComponent<Text>();
+			buttonsData [i].text.text = buttonsData [i].name;
+		}
 	}
 
 	void OnDisable(){
@@ -31,13 +47,10 @@ public class WorksPageController : Page_Base {
 	protected override void OnOpen(){
 		moviePlane.gameObject.SetActive (false);
 		closeMovie.gameObject.SetActive (false);
-
+		LoadingMoiveTipObj.SetActive (false);
 		#if !UNITY_EDITOR
 		if(movieTexture == null){
-			movieTexture = new WebGLMovieTexture("StreamingAssets/VdartsMovie.mp4");
-			movieTexture.Seek (0);
 			moviePlane.GetComponent<MeshRenderer>().material = new Material (Shader.Find("Diffuse"));
-			moviePlane.GetComponent<MeshRenderer>().material.mainTexture = movieTexture;
 		}
 		#endif
 	}
@@ -55,6 +68,26 @@ public class WorksPageController : Page_Base {
 		}
 	}
 
+	public void PlayVideo(int p_btnNumber){
+		#if !UNITY_EDITOR
+		if (isPlayingMovie) {
+			return;
+		}
+		if (movieTexture != null) {
+			movieTexture = null;
+		}
+		if (moviePlane.GetComponent<MeshRenderer> ().material != null) {
+			Destroy (moviePlane.GetComponent<MeshRenderer> ().material);
+		}
+		movieTexture = new WebGLMovieTexture("StreamingAssets/" + buttonsData[p_btnNumber].videoName + ".mp4");
+		movieTexture.Seek (0);
+		moviePlane.GetComponent<MeshRenderer>().material = new Material (Shader.Find("Diffuse"));
+		moviePlane.GetComponent<MeshRenderer>().material.mainTexture = movieTexture;
+		contrin = IE_OnVdartsMovie ();
+		StartCoroutine (contrin);
+		#endif
+	}
+
 	public void OnVdartsMovieBtn(){
 		#if !UNITY_EDITOR
 		if (isPlayingMovie) {
@@ -69,6 +102,11 @@ public class WorksPageController : Page_Base {
 	IEnumerator IE_OnVdartsMovie(){
 		isPlayingMovie = true;
 		clickTime = 0;
+		LoadingMoiveTipObj.SetActive (true);
+		while (movieTexture.isReady == false) {
+			yield return null;
+		}
+		LoadingMoiveTipObj.SetActive (false);
 		closeMovie.gameObject.SetActive (true);
 		moviePlane.gameObject.SetActive (true);
 
@@ -80,7 +118,6 @@ public class WorksPageController : Page_Base {
 		while (movieTexture.time < movieTexture.duration) {
 			yield return null;
 		}
-
 		StopMovie ();
 		AudioController.StartBackgroundMusic ();
 		isPlayingMovie = false;
