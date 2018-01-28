@@ -76,30 +76,22 @@ public class WorksPageController : Page_Base {
 		if (movieTexture != null) {
 			movieTexture = null;
 		}
+
 		if (moviePlane.GetComponent<MeshRenderer> ().material != null) {
 			Destroy (moviePlane.GetComponent<MeshRenderer> ().material);
 		}
+
 		movieTexture = new WebGLMovieTexture("StreamingAssets/" + buttonsData[p_btnNumber].videoName + ".mp4");
 		movieTexture.Seek (0);
 		moviePlane.GetComponent<MeshRenderer>().material = new Material (Shader.Find("Diffuse"));
 		moviePlane.GetComponent<MeshRenderer>().material.mainTexture = movieTexture;
-		contrin = IE_OnVdartsMovie ();
+
+		contrin = IE_PlayVideo ();
 		StartCoroutine (contrin);
 		#endif
 	}
 
-	public void OnVdartsMovieBtn(){
-		#if !UNITY_EDITOR
-		if (isPlayingMovie) {
-			return;
-		}
-
-		contrin = IE_OnVdartsMovie ();
-		StartCoroutine (contrin);
-		#endif
-	}
-
-	IEnumerator IE_OnVdartsMovie(){
+	IEnumerator IE_PlayVideo(){
 		isPlayingMovie = true;
 		clickTime = 0;
 		LoadingMoiveTipObj.SetActive (true);
